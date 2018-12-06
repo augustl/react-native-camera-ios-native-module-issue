@@ -7,12 +7,25 @@
 //
 
 #import "ViewController.h"
+#import <React/RCTRootView.h>
+#import <React/RCTBridge.h>
+#import <React/RCTBridgeDelegate.h>
 
-@interface ViewController ()
+@interface ViewController () <RCTBridgeDelegate>
 
 @end
 
 @implementation ViewController
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
+    return [NSURL URLWithString:@"http://localhost:8081/index-dev.ios.bundle?platform=ios"];
+}
+
+- (void)loadView {
+    RCTBridge* bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:nil];
+    RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"RNIosTest" initialProperties:nil];
+    self.view = rootView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
